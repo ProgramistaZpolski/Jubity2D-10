@@ -51,6 +51,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Speech" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -62,11 +63,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox1.Designer.cs">
+      <DependentUpon>AboutBox1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Editor2D.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Editor2D.Designer.cs">
       <DependentUpon>Editor2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Editor3D.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Editor3D.Designer.cs">
+      <DependentUpon>Editor3D.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
@@ -100,6 +113,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrailerMaker.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TrailerMaker.Designer.cs">
+      <DependentUpon>TrailerMaker.cs</DependentUpon>
+    </Compile>
     <Compile Include="Updateer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,8 +131,14 @@
     <Compile Include="WaterSplash.Designer.cs">
       <DependentUpon>WaterSplash.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AboutBox1.resx">
+      <DependentUpon>AboutBox1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Editor2D.resx">
       <DependentUpon>Editor2D.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Editor3D.resx">
+      <DependentUpon>Editor3D.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
@@ -139,6 +164,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TrailerMaker.resx">
+      <DependentUpon>TrailerMaker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Updateer.resx">
       <DependentUpon>Updateer.cs</DependentUpon>
     </EmbeddedResource>

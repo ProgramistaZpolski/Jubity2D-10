@@ -14,11 +14,13 @@ using System.CodeDom.Compiler;
 using Microsoft.CSharp;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace Jubity2D_10__Engine
 {
     public partial class Editor2D : Form
     {
+        
         public byte speeed;
         public short levelnum = 0;
         public bool cinemachine = false;
@@ -78,6 +80,7 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
             playyer.cinemachine = cinemachine;
             playyer.axWindowsMediaPlayer1.URL = musicname;
             playyer.pictureBox3.ImageLocation = pictureBox3.ImageLocation;
+            playyer.pictureBox4.ImageLocation = pictureBox4.ImageLocation;
             loaddd loaaderek = new loaddd();
             loaaderek.Show();
             loaaderek.label1.Text = textBox1.Text;
@@ -281,7 +284,6 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
             tabPage4.BackColor = Color.White;
             tabPage5.BackColor = Color.White;
             label1.ForeColor = Color.Black;
-            label2.ForeColor = Color.Black;
             label3.ForeColor = Color.Black;
         }
 
@@ -293,7 +295,6 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
             tabPage4.BackColor = Color.Black;
             tabPage5.BackColor = Color.Black;
             label1.ForeColor = Color.White;
-            label2.ForeColor = Color.White;
             label3.ForeColor = Color.White;
         }
 
@@ -304,16 +305,39 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
 
         private void ExeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            toolStripStatusLabel1.Text = "Exporting.";
+            toolStripProgressBar1.Value = 0;
             holdon holdplease = new holdon();
-            holdplease.Show();
+            new Thread(() =>
+            {
+                holdplease.Show();
+            }).Start();
+            toolStripProgressBar1.Value = 1;
+            toolStripStatusLabel1.Text = "Exporting..";
             using (var client = new WebClient())
             {
                 client.DownloadFile("http://www.programistazpolski.ct8.pl/JubityPlayer.exe", AppDomain.CurrentDomain.BaseDirectory + @"\JubityPlayer.exe");
+                toolStripStatusLabel1.Text = "Exporting...";
+                toolStripProgressBar1.Value = 30;
+                client.DownloadFile("http://www.programistazpolski.ct8.pl/AxInterop.WMPLib.dll", AppDomain.CurrentDomain.BaseDirectory + @"\AxInterop.WMPLib.dll");
+                toolStripStatusLabel1.Text = "Exporting.";
+                toolStripProgressBar1.Value = 37;
+                client.DownloadFile("http://www.programistazpolski.ct8.pl/Interop.WMPLib.dll", AppDomain.CurrentDomain.BaseDirectory + @"\Interop.WMPLib.dll");
+                toolStripStatusLabel1.Text = "Exporting..";
+                toolStripProgressBar1.Value = 40;
             }
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\Main.j2d", textBox1.Text);
+            toolStripStatusLabel1.Text = "Exporting...";
+            toolStripProgressBar1.Value = 42;
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\level0.j2d", "tlo.png");
+            toolStripStatusLabel1.Text = "Exporting.";
+            toolStripProgressBar1.Value = 45;
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"speed.j2d", Convert.ToString(numericUpDown1.Value));
+            toolStripStatusLabel1.Text = "Exporting..";
+            toolStripProgressBar1.Value = 50;
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + @"\sharedassets.j2d", "player.png");
+            toolStripStatusLabel1.Text = "Exporting...";
+            toolStripProgressBar1.Value = 65;
             if (splasher != "sampleSplash.mp4")
             {
                 File.Copy(splasher, "splashScreen.mp4");
@@ -325,9 +349,20 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
                     client.DownloadFile("http://www.programistazpolski.ct8.pl/assetstore/sampleSplash.mp4", AppDomain.CurrentDomain.BaseDirectory + @"\splashScreen.mp4");
                 }
             }
+            toolStripStatusLabel1.Text = "Exporting.";
+            toolStripProgressBar1.Value = 67;
             File.Copy(pictureBox1.ImageLocation, "tlo.png");
-            File.Copy(pictureBox1.ImageLocation, "player.png");
-            holdplease.Close();
+            toolStripStatusLabel1.Text = "Exporting..";
+            toolStripProgressBar1.Value = 73;
+            File.Copy(pictureBox2.ImageLocation, "player.png");
+            toolStripStatusLabel1.Text = "Exporting...";
+            toolStripProgressBar1.Value = 80;
+            File.Copy(pictureBox4.ImageLocation, "sharedasset1.png");
+            toolStripStatusLabel1.Text = "Exporting.";
+            toolStripProgressBar1.Value = 95;
+            //holdplease.Close();
+            toolStripProgressBar1.Value = 100;
+            toolStripStatusLabel1.Text = "Ready";
         }
 
         private void ToolStripComboBox1_Click(object sender, EventArgs e)
@@ -390,8 +425,13 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
 
         private void Button11_Click(object sender, EventArgs e)
         {
+            toolStripStatusLabel1.Text = "Compiling";
+            toolStripProgressBar1.Value = 10;
             CompileSCS();
+            toolStripProgressBar1.Value = 75;
             File.WriteAllText("JubityFlow.cs", richTextBox2.Text);
+            toolStripProgressBar1.Value = 100;
+            toolStripStatusLabel1.Text = "Ready";
         }
         private void Button12_Click(object sender, EventArgs e)
         {
@@ -406,15 +446,16 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
 
         public void CompileSCS()
         {
-            //Don't copy that compiler, What? Why? Don't copy that, What? Why?
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             ICodeCompiler icc = codeProvider.CreateCompiler();
             string Output = "JubityFlow.exe";
 
             TemptextBox.Text = "";
-            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateExecutable = true;
-            parameters.OutputAssembly = Output;
+            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters
+            {
+                GenerateExecutable = true,
+                OutputAssembly = Output
+            };
             CompilerResults results = icc.CompileAssemblyFromSource(parameters, richTextBox2.Text);
 
             if (results.Errors.Count > 0)
@@ -472,6 +513,51 @@ public static extern bool LockWindowUpdate(IntPtr hWndLock);
         {
             openFileDialog1.ShowDialog();
             splasher = openFileDialog1.FileName;
+        }
+
+        private void TrailerMakerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TrailerMaker trailerMaker = new TrailerMaker();
+            trailerMaker.Show();
+            trailerMaker.gameName = textBox1.Text; 
+        }
+
+        private void TroubleshooterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("If there are problems, make sure to download DLL's!", "Jubity Troubleshooter");
+        }
+
+        private void Button16_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            pictureBox4.ImageLocation = openFileDialog1.FileName;
+        }
+
+        private void GameObjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("no", "no u");
+        }
+
+        private void AddOnsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        public void FileSeek(string FileFolder)
+        {
+            if (FileFolder != "no")
+            {
+                Directory.GetFiles(FileFolder);
+            }
+            else
+            {
+                Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+            }
+        }
+        
+
+        private void Editor2D_KeyUp(object sender, KeyEventArgs e)
+        {
+            
         }
     }
 }

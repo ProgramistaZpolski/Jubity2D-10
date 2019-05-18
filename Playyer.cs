@@ -25,16 +25,9 @@ namespace Jubity2D_10__Engine
         private void Playyer_Load(object sender, EventArgs e)
         {
             timer1.Start();
+            timer2.Start();
             Editor2D editor2D = new Editor2D();
             editor2D.pictureBox1.ImageLocation = pictureBox1.ImageLocation;
-            if (editor2D.checkBox1.Checked == true)
-            {
-                if (editor2D.checkBox2.Checked == false)
-                {
-                    pictureBox2.Visible = false;
-                }
-
-            }
             if (File.Exists(@"\dialogs.vbs"))
             {
                 Process.Start(AppDomain.CurrentDomain.BaseDirectory + @"\dialogs.vbs");
@@ -64,10 +57,23 @@ namespace Jubity2D_10__Engine
 
             pictureBox2.Location = new Point(x, y);
             
+            
         }
-        void Dialogix()
+
+        private void Timer2_Tick(object sender, EventArgs e)
         {
-            MessageBox.Show("I am dialog!","Game");
+            //Collison system
+            if (pictureBox2.Bounds.IntersectsWith(pictureBox4.Bounds))
+            {
+                //Decrale variables
+                int x = pictureBox2.Location.X;
+                
+                //Set X to smaller value
+                x -= speeeeeeeeed;
+
+                //Move gameObject
+                pictureBox2.Location = new Point(x, pictureBox2.Location.Y);
+            }
         }
     }
 }

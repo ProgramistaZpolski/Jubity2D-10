@@ -41,10 +41,10 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(605, 75);
+            this.label1.Size = new System.Drawing.Size(653, 75);
             this.label1.TabIndex = 0;
             this.label1.Text = "There is new version of Jubity to download. Currently installed\r\n version is Jubi" +
-    "ty2D-10 Pre-Alpha 0.1.3\r\nNew version is ";
+    "ty2D-10 Pre-Alpha 0.2 Pre-View 1 / Collision Update\r\nNew version is ";
             // 
             // label2
             // 
@@ -91,7 +91,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 247);
+            this.ClientSize = new System.Drawing.Size(663, 247);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label3);

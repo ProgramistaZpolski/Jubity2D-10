@@ -14,7 +14,7 @@ namespace Jubity2D_10__Engine
 {
     public partial class Updateer : Form
     {
-        public int EditorVersion = 013;
+        public int EditorVersion = 016;
         public Updateer()
         {
             InitializeComponent();
